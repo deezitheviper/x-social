@@ -1,0 +1,35 @@
+{% extends "groups/base.html" %}
+
+{% block precomunity %}
+<div class="container">
+    <h1>{{group.name}}</h1>
+    <h3>{{group.description}}</h3>
+    <h4>Memebers: {{group.members.count}}</h4>
+    <div>
+        {% if user in group.members.all %}
+        <a class="btn btn-lg btn-fill btn-warning" href="{% url 'groups:leave' slug=group.slug %}"><span
+                class="glyphicon glyphicon-remove-circle"></span>Leave Group</a>
+
+        {% else %}
+        <a class="btn btn-lg btn-fill btn-warning" href="{% url 'groups:join' slug=group.slug %}"><span
+                class="glyphicon glyphicon-ok-circle"></span>Join Group</a>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock  %}
+
+{%block comunitycontent %}
+<div class="col-md-8">
+    {%if group.posts.count == 0 %}
+    <h1>Community Is Empty</h1>
+    {%else%}
+    {% for posts in group.posts %}
+    {% include 'posts/_post.html'}
+        {%endfor%}
+    {%endif%}
+
+</div>
+{%endblock%}
