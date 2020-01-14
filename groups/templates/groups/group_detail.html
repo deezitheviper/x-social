@@ -17,6 +17,10 @@
         {% endif %}
 
     </div>
+    <div>
+    {% if user in group.members.all %}
+     <a href="{%url 'posts:create'%}">Create Post</a>
+     {% endif %}
 </div>
 
 {% endblock  %}
