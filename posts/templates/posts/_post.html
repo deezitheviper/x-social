@@ -1,15 +1,17 @@
-<div class="post media">
-    <h3>{{post.message_html|safe}}</h3>
+ <fieldset>
+        <legend><h4>Group: {{post.group}}</h4></legend>   
+    <h5>{{post.message_html|safe}}</h5>
     <div class="media-body">
         <strong><a href="{%url 'posts:user' username=post.user.username %}">@{{post.user.username}}</a></strong>
-        <h5 class="media-heading">
+        <h6 class="media-heading">
             <span class="username">
                 <a href="{%url 'posts:detail' username=post.user.username slug=post.slug %}">{{post.name}}</a>
             </span>
             <time class="time">
                 {{post.post_time}}
         </time> 
-        </h5>  
+        </h6>  
+        
         
         <div class="media-footer">
             {%if user.is_authenticated  and post.user == user and not hide_delete%}
@@ -20,4 +22,4 @@
             {%endif%}    
             </div>
 </div>
-</div>
+</fieldset>
