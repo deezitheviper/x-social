@@ -1,0 +1,27 @@
+
+{% extends "posts/base.html" %}
+{% block prepost %}
+    <div class="col-md-4">
+        {%if request.user.is_authenticated%}
+        <div class="card card-with-shadow">
+            <div class="content">
+                <h1 class="title">Your Feed</h1>
+                <ul class="list-unstyled">
+                    {%for mg in get_user_groups%}
+                    <li class="group li-with-bullet">
+                        <a href="{%url 'groups:detail' slug=mg.group.slug %}"></a>
+                    </li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+        {%endif%}
+    </div>
+{% endblock  %}
+{%block postcontent%}
+    <div class="col-md-8">
+        {%for post in post_list %}
+            {%include 'posts/_post.html'%}
+        {%endfor%}    
+    </div>
+ {%endblock%}   
