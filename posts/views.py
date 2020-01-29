@@ -92,6 +92,7 @@ class PostDeleteView(LoginRequiredMixin,DeleteView,SelectRelatedMixin):
         return super().delete(*args, **kwargs)    
 
     
+    
 
     
 
