@@ -17,7 +17,7 @@ class Group(models.Model):
     slug = models.SlugField(allow_unicode=True,unique=True)
     description_html =models.TextField(blank=True,editable=False, default='')
     members = models.ManyToManyField(User,through="GroupMember")
-
+    image = models.ImageField(upload_to='media/group_image', default='media/group_image/icons8-group-48.png')
 
 
     def __str__(self):
