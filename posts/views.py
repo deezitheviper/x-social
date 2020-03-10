@@ -5,18 +5,31 @@ from django.contrib.auth import get_user_model
 from .models import Post
 from groups.models import Group
 from . import forms
+from django.contrib import  messages
 from django.http import Http404
 from braces.views import SelectRelatedMixin
 from django.views.generic import CreateView,ListView,DetailView,DeleteView
 from django.contrib.auth.decorators import login_required
-
+from groups.models import Group,GroupMember
 User = get_user_model()
+
 
 # Create your views here.
 class PostList(SelectRelatedMixin,ListView):
     model = Post
-    select_related = ('user','group')
-    template_name = 'posts/post_list.html'
+    select_related = ("user","group")
+        
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.group = self.request.user.group_set.prefetch_related('posts')
+        self.group_posts = Post.objects.filter(group_id__in=self.group)
+        print(self.group_posts)
+        return self.group_posts      
+       
+    
+    
+
+
 
 
 
@@ -37,7 +50,7 @@ def PostCreateView(request,slug):
             return redirect('groups:detail',slug=slug)
     else:
         form = forms.PostForm()
-    return render(request,'posts/post_form.html',{'form':form})        
+    return render(request,'posts/post_form.html',{'form':form,'group':group})        
 
 
 
