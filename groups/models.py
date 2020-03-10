@@ -47,6 +47,7 @@ class GroupMember(models.Model):
       unique_together = ('user','group')
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
     
+
