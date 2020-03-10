@@ -5,6 +5,7 @@ from groups.models import Group,GroupMember
 from django.urls import reverse_lazy,reverse
 from django.contrib import messages 
 from django.db import IntegrityError
+from posts.forms import  PostForm
 
 # Create your views here.
 class NewGroup(CreateView,LoginRequiredMixin,PermissionRequiredMixin):
@@ -15,8 +16,21 @@ class NewGroup(CreateView,LoginRequiredMixin,PermissionRequiredMixin):
 class GroupList(ListView):
     model = Group
     template_name = 'groups/group_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        group_user = self.request.user.group_set.all()
+        context["user_group"] = group_user
+        return context
+        
 class GroupDetail(DetailView):
     model = Group
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = PostForm
+        return context
+    
 
 class JoinGroup(LoginRequiredMixin,RedirectView):
     model = Group
